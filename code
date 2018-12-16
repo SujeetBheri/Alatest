@@ -1,0 +1,86 @@
+/**
+ * <p class="copyright">Copyright 2018 by Alatest, Inc.</p>
+ * 
+ * <div class="vcard">
+ *   <div class="fn org">Altas, Inc.</div>
+ *   <div class="adr">
+ *     <div class="post-office-box">P.O. Box 1087</div>
+ *     <div>
+ *       <span class="locality">Sweden</span>, 
+ *       <abbr class="region" title="Stockholm">MI</abbr> <span class="postal-code">10465</span>
+ *     </div>
+ *     <div class="country-name"><abbr title="Sweden">Swe</abbr></div>
+ *   </div>
+ * </div>
+ *
+ * <p class="copyrightRights">All rights reserved.</p>
+ * 
+ * <p class="legal">
+ * This software is the confidential and proprietary information of Altas
+ * Inc. ("Confidential Information"). You shall not disclose
+ * such Confidential Information and shall use it only in accordance with
+ * the terms specified by Altas
+ * </p>
+ */
+package com.gfs.cof.fulfillment;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+/**
+ * @author user
+ */
+public class RouteTelephoneCalls {
+
+    public static void main(String[] args) {
+        final Map<Integer, Map<Integer, BigDecimal>> totalPriceList = new HashMap<>();
+
+        System.out.println("Enter number of Operators");
+        Scanner sc = new Scanner(System.in);
+        final int numOfOp = sc.nextInt();
+        for (int i = 1; i <= numOfOp; i++) {
+            final Map<Integer, BigDecimal> priceList = new HashMap<>();
+            System.out.println("Enter list  of prefix and price for for the operator "
+                    + i
+                    + " and enter q to exit the operator");
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                String input = scanner.nextLine();
+                String[] inputArray = input.split(" ");
+                if ("q".equals(inputArray[0])) {
+                    break;
+                }
+                Integer prefix = Integer.valueOf(inputArray[0]);
+                BigDecimal price = new BigDecimal(inputArray[1]);
+                priceList.put(prefix, price);
+
+            }
+            totalPriceList.put(i, priceList);
+        }
+        System.out.println("Enter Telephone Number with country code : +");
+        Scanner scanner = new Scanner(System.in);
+        String telephoneNum = scanner.next();
+        for (Map.Entry<Integer, Map<Integer, BigDecimal>> entry : totalPriceList.entrySet()) {
+            final Map<Integer, BigDecimal> value = entry.getValue();
+            for (int i = telephoneNum.length(); i > 0; i--) {
+                int num = Integer.valueOf(telephoneNum.substring(0, i));
+                if (value.keySet().contains(num)) {
+                    System.out.println("you will have to pay $ "
+                            + value.get(num)
+                            + "/min with Operator "
+                            + entry.getKey());
+                    break;
+                } else if (i == 1) {
+                    System.out.println("It is not possible to dial "
+                            + telephoneNum
+                            + " with Operator "
+                            + entry.getKey());
+                }
+            }
+        }
+        scanner.close();
+        sc.close();
+    }
+}
