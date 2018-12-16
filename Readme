@@ -1,0 +1,14 @@
+sample input: Enter number of Operators
+2
+Enter list  of prefix and price for for the operator 1 and enter q to exit the operator
+1 2
+q
+Enter list  of prefix and price for for the operator 2 and enter q to exit the operator
+1 1
+q
+Enter Telephone Number with country code : +
+123
+you will have to pay $ 2/min with Operator 1
+you will have to pay $ 1/min with Operator 2
+
+NOTE: do not give any space
